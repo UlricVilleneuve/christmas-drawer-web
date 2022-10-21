@@ -1,0 +1,17 @@
+<div>
+    Rongeur:
+    <a href="/home">Home</a>
+
+    {% if error_msg %}
+        <h2 class="error">{{ error_msg }}</h2>
+    {% endif %}
+    {% if success_msg %}
+        <h2 class="success">{{ success_msg }}</h2>
+    {% endif %}
+    {% if neutral_msg %}
+        <h2 class="neutral">{{ neutral_msg }}</h2>
+    {% endif %}
+
+    {% block content %}
+    {% endblock content %}
+</div>

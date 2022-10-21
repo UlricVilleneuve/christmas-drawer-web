@@ -1,0 +1,7 @@
+Flask
+waitress
+flask_wtf
+wtforms
+requests
+xmltojson
+utils
