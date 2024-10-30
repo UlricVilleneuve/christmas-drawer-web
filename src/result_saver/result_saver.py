@@ -2,7 +2,8 @@ import requests
 import xmltojson
 import json
 
-if __name__ == '__main__':
+
+def v1():
     print('Saving results')
     with open('input/tokens.txt') as tokens_file:
         tokens_file_lines = tokens_file.read().splitlines()
@@ -15,3 +16,22 @@ if __name__ == '__main__':
                 result_file.write(res["div"]["p"][0])
                 result_file.write('\n')
                 result_file.write(res["div"]["p"][1])
+
+
+def v2():
+    print('Saving results')
+    tokens = requests.get('http://127.0.0.1:5000/token')
+    print(f'Tokens: {tokens.json()}')
+    for participant_name, token in tokens.json().items():
+        http_res = requests.get(f'http://127.0.0.1:5000/token/{token}')
+        json_res = xmltojson.parse(http_res.text)
+        res = json.loads(json_res)
+        with open(f'output/{participant_name}.txt', "x") as result_file:
+            result_file.write(res["div"]["p"][0])
+            result_file.write('\n')
+            result_file.write(res["div"]["p"][1])
+
+
+if __name__ == '__main__':
+    # v1()
+    v2()

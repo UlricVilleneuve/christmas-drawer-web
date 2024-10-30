@@ -22,16 +22,28 @@ group_marie_frank = 1
 group_cath_ju = 2
 group_maria_ulric = 3
 group_manon_laval = 4
+group_maria_charles = 5
 frank = Participant("Francois", [group_marie_frank])
 marie = Participant("Marie-Claude", [group_marie_frank])
 cath = Participant("Cath", [group_cath_ju])
 ju = Participant("Julien", [group_cath_ju])
-maria = Participant("Maria", [group_maria_ulric])
+# maria_mexicana = Participant("Maria mexicana", [group_maria_ulric])
 ulric = Participant("Ulric", [group_maria_ulric])
-charles = Participant("Charles", [])
+charles = Participant("Charles", [group_maria_charles])
+maria_greek = Participant("Maria greek", [group_maria_charles])
 manon = Participant("Manon", [group_manon_laval])
 laval = Participant("Laval", [group_manon_laval])
-participants = [frank, marie, cath, ju, maria, ulric, charles, manon, laval]
+participants = [
+    frank,
+    marie,
+    cath,
+    ju,
+    # maria_mexicana,
+    ulric,
+    charles,
+    maria_greek,
+    manon,
+    laval]
 
 tokens_to_participant: typing.Dict[str, Participant]
 tokens_to_participant = {
@@ -39,9 +51,10 @@ tokens_to_participant = {
     generate_random_token(): marie,
     generate_random_token(): cath,
     generate_random_token(): ju,
-    generate_random_token(): maria,
+    # generate_random_token(): maria_mexicana,
     generate_random_token(): ulric,
     generate_random_token(): charles,
+    generate_random_token(): maria_greek,
     generate_random_token(): manon,
     generate_random_token(): laval
 }
@@ -72,8 +85,16 @@ def home():
 
 
 @application.route('/token/<token>', methods=["GET"])
-def token1(token):
+def get_participant(token):
     return render_template("result.html", participant_name=tokens_to_participant[token].name, result_name=tokens_to_participant[token].pick.name)
+
+
+@application.route('/token', methods=["GET"])
+def get_tokens():
+    tokens_json = {}
+    for token, participant in tokens_to_participant.items():
+        tokens_json[participant.name] = token
+    return tokens_json
 
 
 if __name__ == '__main__':
